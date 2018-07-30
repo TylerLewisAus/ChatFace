@@ -6,20 +6,23 @@ import java.util.Scanner;
 //class CarHire definition
 public class ChatFace extends JFrame implements ActionListener
 {
-	String userName = JOptionPane.showInputDialog(null, "Enter a Name You Wish To Use");
+		String firstName = JOptionPane.showInputDialog(null, "Enter a Name You Wish To Use", "Type Here");
+		String userName = firstName;
         //GUI components building
-        private JLabel nameLabel=new JLabel("\nUser: " + userName);
+        private JLabel nameLabel=new JLabel("User: " + userName);
 
 	    private JTextField nameField=new JTextField(16);
         private JTextField daysField=new JTextField(11);
+        private JTextField inputTextField=new JTextField(20);
 
 	    private JButton displayButton=new JButton("Show All Active Users on Server");
 	    private JButton connectButton=new JButton("Connect to Server");
-	    private JButton exitButton=new JButton("Exit");
-        private JTextArea textArea=new JTextArea(16,35);
-        private JTextField inputTextField=new JTextField(20);
         private JButton sendMessageButton = new JButton("Send");
         private JButton changeNameButton=new JButton("Change Name");
+        private JButton startServerButton = new JButton("Create Server");
+        private JButton disconnectButton = new JButton("Disconnect");
+
+        private JTextArea textArea=new JTextArea(16,35);
 
         //declaring variables
         private int j=0;  //count variable to keep track
@@ -30,25 +33,27 @@ public class ChatFace extends JFrame implements ActionListener
         //constructor
         public ChatFace()
         {
-           super("  ChatFace Main Menu");
+           super("ChatFace");
            setLayout(new FlowLayout());  //FlowLayout
            for(int i=0;i<200;i++)         // 200 elements- Customer objcet
            {
 			   //generate user objects here
-
 		   }
            add(connectButton);
+           add(disconnectButton);
            add(displayButton);
-           add(exitButton);
+           add(startServerButton);
            add(changeNameButton);
-           add(textArea);
+           add(new JScrollPane(textArea));
            add(inputTextField);
            add(sendMessageButton);
            add(nameLabel);
+
            changeNameButton.addActionListener(this);
-           exitButton.addActionListener(this);
            sendMessageButton.addActionListener(this);
            displayButton.addActionListener(this);
+           connectButton.addActionListener(this);
+           disconnectButton.addActionListener(this);
         }
 
         //button event handling
@@ -57,11 +62,8 @@ public class ChatFace extends JFrame implements ActionListener
 			String actionString=e.getActionCommand();
 			switch(actionString)
 			{
-				case "Show All Active Users":
+				case "Show All Active Users on Server":
 					showAllUsers();
-					break;
-				case "Exit":
-					exit();
 					break;
 				case "Send":
 					sendMessage();
@@ -69,35 +71,66 @@ public class ChatFace extends JFrame implements ActionListener
 				case "Change Name":
 					changeName();
 					break;
+				case "Create Server":
+					startServer();
+					break;
+				case "Connect to Server":
+					connectToServer();
+					break;
+				case "Disconnect":
+					disconnect();
+					break;
 				default:
 					System.out.println("invalid input");
 			}
 
 		}
 
-		public void showAllUsers()
+		public void connectToServer()
 		{
+			//need server to connect to
 
 		}
 
-		public void exit()
+		public void showAllUsers()
 		{
-			JOptionPane.showMessageDialog(null, "Thankyou for using ChatFace\n Cya next time " + userName + ".");
-			System.exit(1);
+			//launches seperate GUI to display current users
+			Users userList = new Users();
+
+		}
+
+		public void startServer()
+		{
+			//server needs to be modified so it actually works
+			Server createdServer = new Server();
+		}
+
+		public void disconnect()
+		{
+
 		}
 
 		public void sendMessage()
 		{
-			String input = JOptionPane.showInputDialog("Message?");
-			String messageOutput = userName + ": " + input + ".\n";
-			textArea.setText(messageOutput);
+			//this needs to send the text to the server, which then sends it to the clients
+			String sentMessage = inputTextField.getText();
+			inputTextField.setText("");
+			textArea.setText(userName + ": " + sentMessage + ".");
 		}
 
 		public void changeName()
 		{
-			userName = JOptionPane.showInputDialog(null, "Choose your new Username");
-			String newNameLabel = "User: " + userName;
+			//this also needs to be sent to client program
+			String newUserName = JOptionPane.showInputDialog(null, "Choose your new Username");
+			String newNameLabel = "User: " + newUserName;
 			nameLabel.setText(newNameLabel);
+			textArea.setText(userName + " has changed their name to " + newUserName + ". (" + firstName + ")");
+			if (userName == null)
+			{
+				userName = firstName;
+			}else{
+				userName = newUserName;
+			}
 		}
 
 
