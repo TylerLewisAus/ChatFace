@@ -7,14 +7,15 @@ import java.util.Scanner;
 public class Users extends JFrame implements ActionListener
 {
         //GUI components building
-		private JButton refreshButton = new JButton("Refresh");
-        private JTextArea textArea=new JTextArea(16,35);
+
 
         //declaring variables
         private int j=0;  //count variable to keep track
 		String[] message = {""};
-        private static final int FRAME_WIDTH = 380;// JFrame size
+        private static final int FRAME_WIDTH = 420;// JFrame size
         private static final int FRAME_HEIGHT = 280;
+        private JButton refreshButton = new JButton("Refresh");
+        private JTextArea textArea = new JTextArea(420,280);
 
         //constructor
         public Users()
@@ -33,7 +34,7 @@ public class Users extends JFrame implements ActionListener
 
         public void refresh()
         {
-			textArea.setText("Users on Server are as follows");
+			textArea.setText("Current Users: " + "." );
 		}
 
         //button event handling

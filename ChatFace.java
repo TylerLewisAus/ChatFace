@@ -8,7 +8,7 @@ public class ChatFace extends JFrame implements ActionListener
 {
 		String firstName = JOptionPane.showInputDialog(null, "Enter a Name You Wish To Use", "Type Here");
 		String userName = firstName;
-        //GUI components building
+        //GUI components building for Chatface
         private JLabel nameLabel=new JLabel("User: " + userName);
 
 	    private JTextField nameField=new JTextField(16);
@@ -26,7 +26,7 @@ public class ChatFace extends JFrame implements ActionListener
 
         //declaring variables
         private int j=0;  //count variable to keep track
-		String[] message = {""};
+		String[] message = new String[100];
         private static final int FRAME_WIDTH = 480;// JFrame size
         private static final int FRAME_HEIGHT = 430;
 
@@ -96,7 +96,6 @@ public class ChatFace extends JFrame implements ActionListener
 		{
 			//launches seperate GUI to display current users
 			Users userList = new Users();
-
 		}
 
 		public void startServer()
@@ -112,10 +111,10 @@ public class ChatFace extends JFrame implements ActionListener
 
 		public void sendMessage()
 		{
-			//this needs to send the text to the server, which then sends it to the clients
+			//this needs to send the text to the server, which then appends it to the clients
 			String sentMessage = inputTextField.getText();
 			inputTextField.setText("");
-			textArea.setText(userName + ": " + sentMessage + ".");
+			textArea.append(userName + ": " + sentMessage + "\n");
 		}
 
 		public void changeName()
@@ -124,20 +123,15 @@ public class ChatFace extends JFrame implements ActionListener
 			String newUserName = JOptionPane.showInputDialog(null, "Choose your new Username");
 			String newNameLabel = "User: " + newUserName;
 			nameLabel.setText(newNameLabel);
-			textArea.setText(userName + " has changed their name to " + newUserName + ". (" + firstName + ")");
-			if (userName == null)
-			{
-				userName = firstName;
-			}else{
-				userName = newUserName;
-			}
+			textArea.append(userName + " has changed their name to " + newUserName + ". (" + firstName + ")\n");
+			userName = newUserName;
 		}
 
 
         //main method
         public static void main(String[] args)
         {
-		   JFrame frame = new ChatFace();
+			JFrame frame = new ChatFace();
 		   frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		   frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
 		   frame.setVisible(true);
